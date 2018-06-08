@@ -1,0 +1,22 @@
+language: go
+go:
+  - tip
+env:
+  - env GOOS=linux GOARCH=amd64 BUILD_NAME=oauth2-router.linux.amd64
+  - env GOOS=darwin GOARCH=amd64 BUILD_NAME=oauth2-router.linux.amd64
+  - env GOOS=windows GOARCH=386 BUILD_NAME=oauth2-router.windows.amd64.exe
+script:
+  - 'go test ./...'
+  - go build -o $BUILD_NAME
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  file:
+  - logshare.windows.amd64.exe
+  - logshare.darwin.amd64
+  - logshare.linux.amd64
+  on:
+    branch: master
+    tags: true
+    condition: $LATEST = true
