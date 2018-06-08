@@ -1,22 +1,23 @@
 language: go
 go:
   - 1.10.2
-env:
-  - env GOOS=linux GOARCH=amd64 BUILD_NAME=oauth2-router.linux.amd64
-  - env GOOS=darwin GOARCH=amd64 BUILD_NAME=oauth2-router.linux.amd64
-  - env GOOS=windows GOARCH=386 BUILD_NAME=oauth2-router.windows.amd64.exe
 script:
   - 'go test ./...'
-  - go build -o $BUILD_NAME
+  - env GOOS=linux GOARCH=amd64 go build -o oauth2-router.linux.amd64
+  - env GOOS=darwin GOARCH=amd64 go build -o oauth2-router.darwin.amd64
+  - env GOOS=windows GOARCH=386 go build -o oauth2-router.windows.amd64.exe
 
-deploy:
-  provider: releases
-  skip_cleanup: true
-  file:
-  - oauth2-router.windows.amd64.exe
-  - oauth2-router.darwin.amd64
-  - oauth2-router.linux.amd64
-  on:
-    branch: master
-    tags: true
-    condition: $LATEST = true
+jobs:
+  include:
+    - stage: deploy
+      script: echo "Deploying to GitHub Releases"
+      deploy:
+        provider: releases
+        skip_cleanup: true
+        file:
+        - oauth2-router.windows.amd64.exe
+        - oauth2-router.darwin.amd64
+        - oauth2-router.linux.amd64
+        on:
+          branch: master
+          tags: true
