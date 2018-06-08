@@ -1,6 +1,6 @@
 language: go
 go:
-  - tip
+  - 1.10.3
 env:
   - env GOOS=linux GOARCH=amd64 BUILD_NAME=oauth2-router.linux.amd64
   - env GOOS=darwin GOARCH=amd64 BUILD_NAME=oauth2-router.linux.amd64
