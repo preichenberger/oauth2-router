@@ -12,7 +12,13 @@ Possible use cases:
 SECURITY: This allows for arbitrary redirects of OAuth2 Authorization Codes. Please understand the implications before using this.
 
 ## Install
+
+### Binary
 Grab a release from: https://github.com/preichenberger/oauth2-router/releases
+
+### Docker
+https://hub.docker.com/r/preichenberger/oauth2-router
+
 
 ## Start
 ```bash
