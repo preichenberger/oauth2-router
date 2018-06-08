@@ -25,9 +25,7 @@ $ oauth2-router -port 3000
 $ 2018/06/08 12:48:09 Starting OAuth2 Router on port: 3000
 ```
 
-## Example
-Coding examples 
-
+## Client Implementation
 For the following info:
 - OAuth2 Router redirect_uri: http://localhost:8080
 - Real redirect_uri: http://localhost:5000/random_endpoint?apple=pears
@@ -38,7 +36,7 @@ For the following info:
 ```json
 {
 	"csrf": "39adsijdfiaj",
-	"redirect": http://localhost:5000/random_endpoint?apple=pears
+	"redirect": "http://localhost:5000/random_endpoint?apple=pears"
 }
 ```
 3. Base64 encode the json and set it as the state parameter in the OAuth2 implementation
