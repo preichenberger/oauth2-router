@@ -19,7 +19,6 @@ Grab a release from: https://github.com/preichenberger/oauth2-router/releases
 ### Docker
 https://hub.docker.com/r/preichenberger/oauth2-router
 
-
 ## Start
 ```bash
 $ oauth2-router -port 3000
@@ -27,19 +26,23 @@ $ 2018/06/08 12:48:09 Starting OAuth2 Router on port: 3000
 ```
 
 ## Example
-Using the following information:
+Coding examples 
+
+For the following info:
 - OAuth2 Router redirect_uri: http://localhost:8080
 - Real redirect_uri: http://localhost:5000/random_endpoint?apple=pears
 - Authorization code from callback: secretcode
-- Original state parameter(URL encoded): csrf%3D1234
-- OAuth2 Router state parameter(URL encoded): csrf%3D1234%26redirect%3Dhttp%3A%2F%2Flocalhost%3A5000%2Frandom_endpoint%3Fapple%3Dpears
 
-Setting the state parameter must be implemented by the user's code. It must include a query parameter 'redirect' which is the real redirect_uri that you will be redirecting to.
-
-```bash
-curl "http://localhost:8080?code=secretcode&state=csrf%3D1234%26redirect%3Dhttp%3A%2F%2Flocalhost%3A5000%2Frandom_endpoint%3Fapple%3Dpears"
-<a href="http://localhost:5000/random_endpoint?apple=pears&amp;code=secretcode&amp;state=csrf%3D1234%26redirect%3Dhttp%3A%2F%2Flocalhost%3A5000%2Frandom_endpoint%3Fapple%3Dpears">Moved Permanently</a>.
+1. Add the OAuth2 Router redirect_uri: http://localhost:8080 to your OAuth2 provider (Google, Facebook, Github, etc...)
+2. Create a JSON with any date to be passed in the OAuth2 state parameter. Add a redirect parameter, with the real redirect_uri
+```json
+{
+	"csrf": "39adsijdfiaj",
+	"redirect": http://localhost:5000/random_endpoint?apple=pears
+}
 ```
+3. Base64 encode the json and set it as the state parameter in the OAuth2 implementation
+4. Use OAuth2
 
 ## Tests
 Run tests

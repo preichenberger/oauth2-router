@@ -1,25 +1,38 @@
 package redirector
 
 import (
+  "encoding/base64"
+  "encoding/json"
   "errors"
   "fmt"
   "net/url"
   "testing"
 )
 
-func TestCreateUrl(t *testing.T) {
-  csrfString := "test313"
-  redirectUrlString := "https://www.github.com/test?callback=3&callback=4"
+func createStateValue(values map[string]string) (string, error) {
+  data, err := json.Marshal(values)
+  if err != nil {
+    return "", err
+  }
 
+  return base64.StdEncoding.EncodeToString(data), nil
+}
+
+func TestCreateUrl(t *testing.T) {
   queryValues := url.Values{}
   queryValues.Add("code", "3")
   queryValues.Add("code", "5")
 
-  stateQueryValues := url.Values{}
-  stateQueryValues.Add("csrf", csrfString)
-  stateQueryValues.Add("redirect", redirectUrlString)
-  println(stateQueryValues.Encode())
-  queryValues.Add("state", stateQueryValues.Encode())
+  stateValues := map[string]string{
+    "csrf": "test123",
+    "redirect": "https://www.github.com/test?callback=3&callback=4",
+  }
+
+  state, err := createStateValue(stateValues)
+  if err != nil {
+    t.Error(err)
+  }
+  queryValues.Add("state", state)
 
   redirectUrl, err := CreateUrl(queryValues)
   if err != nil {
@@ -27,9 +40,10 @@ func TestCreateUrl(t *testing.T) {
   }
 
   expected := fmt.Sprintf("https://www.github.com/test?callback=3&callback=4&code=3&code=5&state=%s",
-    url.QueryEscape(stateQueryValues.Encode()))
+    url.QueryEscape(state))
+
   if redirectUrl.String() != expected {
-    errMsg := fmt.Sprintf("CreateUrl does not match expected response:\nResult:%s\nExpected: %s", redirectUrl.String(), expected)
+    errMsg := fmt.Sprintf("CreateUrl does not match expected response:\n  Result: %s\nExpected: %s", redirectUrl.String(), expected)
     t.Error(errors.New(errMsg))
   }
 }
@@ -42,20 +56,36 @@ func TestCreateUrlMissingStateError(t *testing.T) {
 }
 
 func TestCreateUrlMissingRedirectError(t *testing.T) {
-  queryValues := url.Values{}
-  queryValues.Add("state", "test=3")
+  stateValues := map[string]string{
+    "test": "test",
+  }
 
-  _, err := CreateUrl(queryValues)
+  queryValues := url.Values{}
+  state, err := createStateValue(stateValues)
+  if err != nil {
+    t.Error(err)
+  }
+  queryValues.Add("state", state)
+
+  _, err = CreateUrl(queryValues)
   if err.Error() != "Query param redirect missing from state" {
     t.Error(errors.New("Missing query param redirect error"))
   }
 }
 
 func TestCreateUrlRedirectParseError(t *testing.T) {
-  queryValues := url.Values{}
-  queryValues.Add("state", "redirect=http/test")
+  stateValues := map[string]string{
+    "redirect": "http;test",
+  }
 
-  _, err := CreateUrl(queryValues)
+  queryValues := url.Values{}
+  state, err := createStateValue(stateValues)
+  if err != nil {
+    t.Error(err)
+  }
+  queryValues.Add("state", state)
+
+  _, err = CreateUrl(queryValues)
   if err.Error() != "Could not parse redirect URL" {
     t.Error(errors.New("Missing could not parse redirect error"))
   }
