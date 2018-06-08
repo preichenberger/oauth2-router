@@ -1,14 +1,15 @@
 language: go
 go:
   - 1.10.2
-script:
-  - 'go test ./...'
-  - env GOOS=linux GOARCH=amd64 go build -o oauth2-router.linux.amd64
-  - env GOOS=darwin GOARCH=amd64 go build -o oauth2-router.darwin.amd64
-  - env GOOS=windows GOARCH=386 go build -o oauth2-router.windows.amd64.exe
 
 jobs:
   include:
+    - stage: test
+      script:
+        - 'go test ./...'
+        - env GOOS=linux GOARCH=amd64 go build -o oauth2-router.linux.amd64
+        - env GOOS=darwin GOARCH=amd64 go build -o oauth2-router.darwin.amd64
+        - env GOOS=windows GOARCH=386 go build -o oauth2-router.windows.amd64.exe
     - stage: deploy
       script: echo "Deploying to GitHub Releases"
       deploy:
