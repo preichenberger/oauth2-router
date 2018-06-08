@@ -13,9 +13,9 @@ deploy:
   provider: releases
   skip_cleanup: true
   file:
-  - logshare.windows.amd64.exe
-  - logshare.darwin.amd64
-  - logshare.linux.amd64
+  - oauth2-router.windows.amd64.exe
+  - oauth2-router.darwin.amd64
+  - oauth2-router.linux.amd64
   on:
     branch: master
     tags: true
