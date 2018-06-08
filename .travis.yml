@@ -17,10 +17,10 @@ jobs:
           secure:
             WqlPd8O6QEo+qKyXxpKAey/qGa1BgNkOA09roxrgNnBlBt3gpZW5Pt7QAkgk+re97u2V05mGyPTu+DQ4MASbIbwUh+2AQr7iTIsbQDC+YAcdy+0gPz9PFYe4mh0JkYji6sXg7aKU4tmiKoUlx5sIE8ZRCjlGyY2BaHQ2aWmJhOcrUYc9GdS/QtkppCp+jL7L8uF1KdA/4KyXXxrH3+WTFUHna9S4tJ09qwPCUcIUQy5IuOygLN+uMjpBW+FoCsVlDdD9Nt4D56taAfcfjnNcVe6a7YmjqNLUse4uNHJ66TuTXF6gk5NHEBeDSnBPn80rXScJDh+Gi9R3JyGDLAxMyNmlCvuJlY5x7dVtf1sh7XwzAznnlbpnX68d9Q2F0Xg8lpApkps+bPpZqRwKwXKcF3XFayePv29rRxgWVeloxLQ7eKMlF6jjhoQYQ4C3OAOdbxjw02mcQeHsIWzza2YalFKCl4TupJApneGPJTnc2nR/cbLbJ00t0SC+oby71ePvH0AuAK7SkX6uK0f7cpdh71J0qDXEUEJ7GZXPMRcygy0HgWaOBbYSgTKzBlyMbtWg1f/bqCewDdy7pIH77XoC4ysz5gJNCTplAv7Azw1gLALv86nxpRRM1af8m/1UofTMJH3gzE6rKRCraahrRldG9GARS5xXdBhXrqSMQji8xGI=
         skip_cleanup: true
-        file:
-        - oauth2-router.windows.amd64.exe
-        - oauth2-router.darwin.amd64
-        - oauth2-router.linux.amd64
+        files:
+          - oauth2-router.windows.amd64.exe
+          - oauth2-router.darwin.amd64
+          - oauth2-router.linux.amd64
         on:
           branch: master
           tags: true
