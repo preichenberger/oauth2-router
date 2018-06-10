@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/preichenberger/oauth2-router/redirector"
 )
@@ -34,6 +35,15 @@ func main() {
 	flag.IntVar(&port, "port", 8080, "port to listen on")
 	flag.BoolVar(&help, "h", false, "help")
 	flag.Parse()
+
+	env_port := os.Getenv("PORT")
+	if len(env_port) != 0 {
+		env_port_int, err := strconv.Atoi(env_port)
+		if err != nil {
+			log.Fatal(err)
+		}
+		port = env_port_int
+	}
 
 	if help {
 		println("Usage: oauth2-redirector [-port 8080]")

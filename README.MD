@@ -1,4 +1,4 @@
-OAuth2 Router [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/preichenberger/oauth2-router) [![Build Status](https://travis-ci.org/preichenberger/oauth2-router.svg?branch=master)](https://travis-ci.org/preichenberger/oauth2-router)
+OAuth2 Router [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/preichenberger/oauth2-router) [![Build Status](https://travis-ci.org/preichenberger/oauth2-router.svg?branch=master)](https://travis-ci.org/preichenberger/oauth2-router)[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 ========
 
 Redirects an OAuth2 callback to a URL specified in the state parameter with all query parameters from the original request.

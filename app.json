@@ -1,0 +1,6 @@
+{
+  "name": "oauth2-router",
+  "description": "OAuth2 router",
+  "repository": "https://github.com/preichenberger/oauth2-router",
+  "keywords": ["oauth", "oauth2", "proxy", "router", "redirect"]
+}
