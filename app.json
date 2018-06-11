@@ -2,5 +2,10 @@
   "name": "oauth2-router",
   "description": "OAuth2 router",
   "repository": "https://github.com/preichenberger/oauth2-router",
-  "keywords": ["oauth", "oauth2", "proxy", "router", "redirect"]
+  "keywords": ["oauth", "oauth2", "proxy", "router", "redirect"],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-go"
+    }
+  ]
 }
