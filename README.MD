@@ -2,7 +2,7 @@ OAuth2 Router [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](h
 ========
 
 Redirects an OAuth2 callback to a URL specified in the state parameter with all query parameters from the original request.
-This allows having one endpoint as the destination for different OAuth2 callbacks destinations.
+This allows having one endpoint as the destination for different OAuth2 callbacks destinations. Allows for whitelisting redirect domains.
 
 Possible use cases:
 - Pull Request builds
@@ -24,15 +24,15 @@ https://hub.docker.com/r/preichenberger/oauth2-router
 
 ## Start
 ```bash
-$ oauth2-router -port 3000
+$ oauth2-router -port 3000 -whitelist localhost,*.google.com
 $ 2018/06/08 12:48:09 Starting OAuth2 Router on port: 3000
 ```
 
 ## Client Implementation
 For the following info:
+- Whitelist: localhost
 - OAuth2 Router redirect_uri: http://localhost:8080
 - Real redirect_uri: http://localhost:5000/random_endpoint?apple=pears
-- Authorization code from callback: secretcode
 
 1. Add the OAuth2 Router redirect_uri: http://localhost:8080 to your OAuth2 provider (Google, Facebook, Github, etc...)
 2. Create a JSON with any date to be passed in the OAuth2 state parameter. Add a redirect parameter, with the real redirect_uri

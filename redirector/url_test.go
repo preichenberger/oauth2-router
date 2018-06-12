@@ -34,7 +34,8 @@ func TestCreateUrl(t *testing.T) {
   }
   queryValues.Add("state", state)
 
-  redirectUrl, err := CreateUrl(queryValues)
+  redirector := NewRedirector("www.github.com")
+  redirectUrl, err := redirector.CreateUrl(queryValues)
   if err != nil {
     t.Error(err)
   }
@@ -49,7 +50,9 @@ func TestCreateUrl(t *testing.T) {
 }
 
 func TestCreateUrlMissingStateError(t *testing.T) {
-  _, err := CreateUrl(url.Values{})
+  redirector := NewRedirector("")
+
+  _, err := redirector.CreateUrl(url.Values{})
   if err.Error() != "Missing state field" {
     t.Error(errors.New("Missing not found state error"))
   }
@@ -67,7 +70,8 @@ func TestCreateUrlMissingRedirectError(t *testing.T) {
   }
   queryValues.Add("state", state)
 
-  _, err = CreateUrl(queryValues)
+  redirector := NewRedirector("")
+  _, err = redirector.CreateUrl(queryValues)
   if err.Error() != "Query param redirect missing from state" {
     t.Error(errors.New("Missing query param redirect error"))
   }
@@ -85,7 +89,8 @@ func TestCreateUrlRedirectParseError(t *testing.T) {
   }
   queryValues.Add("state", state)
 
-  _, err = CreateUrl(queryValues)
+  redirector := NewRedirector("")
+  _, err = redirector.CreateUrl(queryValues)
   if err.Error() != "Could not parse redirect URL" {
     t.Error(errors.New("Missing could not parse redirect error"))
   }

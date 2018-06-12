@@ -11,11 +11,13 @@ import (
 	"github.com/preichenberger/oauth2-router/redirector"
 )
 
+var _redirector *redirector.Redirector
+
 func OauthRouterServer(w http.ResponseWriter, req *http.Request) {
-	redirectUrl, err := redirector.CreateUrl(req.URL.Query())
+	redirectUrl, err := _redirector.CreateUrl(req.URL.Query())
 	if err != nil {
 		switch err.(type) {
-		case redirector.ValidationError:
+		case redirector.Error:
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(fmt.Sprintf("400 - %s\n", err)))
 		default:
@@ -30,9 +32,11 @@ func OauthRouterServer(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	var port int
 	var help bool
+	var port int
+	var whitelist string
 	flag.IntVar(&port, "port", 8080, "port to listen on")
+	flag.StringVar(&whitelist, "whitelist", "*", "comma-delimited list of whitelist domains i.e '*.github.com,pizza.com'")
 	flag.BoolVar(&help, "h", false, "help")
 	flag.Parse()
 
@@ -45,10 +49,17 @@ func main() {
 		port = env_port_int
 	}
 
+	env_whitelist := os.Getenv("WHITELIST")
+	if len(env_whitelist) != 0 {
+		whitelist = env_whitelist
+	}
+
 	if help {
-		println("Usage: oauth2-redirector [-port 8080]")
+		println("Usage: oauth2-redirector [-port 8080] [-whitelist *.github.com,pizza.com")
 		os.Exit(0)
 	}
+
+	_redirector = redirector.NewRedirector(whitelist)
 
 	http.HandleFunc("/", OauthRouterServer)
 	log.Printf("Starting OAuth2 Router on port: %d", port)

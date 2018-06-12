@@ -1,9 +1,9 @@
 package redirector
 
-type ValidationError struct {
+type Error struct {
 	Message string
 }
 
-func (e ValidationError) Error() string {
+func (e Error) Error() string {
 	return e.Message
 }
