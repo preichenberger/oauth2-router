@@ -24,7 +24,7 @@ https://hub.docker.com/r/preichenberger/oauth2-router
 
 ## Start
 ```bash
-$ oauth2-router -port 3000 -whitelist localhost,*.google.com
+$ oauth2-router -port 3000 -whitelist 'localhost,*.google.com'
 $ 2018/06/08 12:48:09 Starting OAuth2 Router on port: 3000
 ```
 
